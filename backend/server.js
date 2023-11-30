@@ -1,12 +1,36 @@
 const { chats } = require("./data/data");
 const dotenv = require('dotenv')
 const express = require('express');
+const cors = require('cors'); 
+const connectDB = require("./config/db");
+dotenv.config();
+connectDB();
 const app = express();
-const port = process.env.PORT || 6000;
+
+
+
+const port = process.env.PORT || 4000;
+
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+ 
+// Allow cross-domain requests
+const allowCrossDomain = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+}; 
+
+app.use(allowCrossDomain);
 
 app.get("/api/chat", (req, res) => {
-    res.status(200).json(chats);
     console.log(chats);
+    res.json(chats);
+   
 });
 
 app.get('/api/chat/:id', (req, res) => {
