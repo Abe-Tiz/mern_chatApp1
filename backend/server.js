@@ -7,9 +7,11 @@ dotenv.config();
 connectDB();
 const app = express();
 
-
-
 const port = process.env.PORT || 4000;
+
+
+const userRoute = require('./routes/userRoute');
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 
 // Middleware
@@ -27,17 +29,17 @@ const allowCrossDomain = (req, res, next) => {
 
 app.use(allowCrossDomain);
 
-app.get("/api/chat", (req, res) => {
+app.get("/", (req, res) => {
     console.log(chats);
     res.json(chats);
    
 });
 
-app.get('/api/chat/:id', (req, res) => {
-    const id = req.params.id;
-    const singleChat = chats.find(chat =>  chat._id === id );
-    res.json(singleChat)
-})
+app.use('/api/user', userRoute);
+
+app.use(notFound);
+app.use(errorHandler);
+
 
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
