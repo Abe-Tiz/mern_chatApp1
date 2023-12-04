@@ -48,7 +48,6 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 });
 
-
 const fetchChats = asyncHandler(async (req, res) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
@@ -68,7 +67,6 @@ const fetchChats = asyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
-
 
 const createGroupChat = asyncHandler(async (req, res) => {
   if (!req.body.users || !req.body.name) {
@@ -151,7 +149,6 @@ const addToGroup = asyncHandler(async (req, res) => {
     res.json(added);
   }
 });
-
 
 const removeFromGroup = asyncHandler(async (req, res) => {
   const { chatId, userId } = req.body;
