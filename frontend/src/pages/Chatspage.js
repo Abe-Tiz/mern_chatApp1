@@ -6,8 +6,10 @@ import { Box } from "@chakra-ui/layout";
 import Mychats from "../components/Mychats";
 import ChatBox from "../components/ChatBox";
 import { Flex, Spacer } from "@chakra-ui/react";
+import { useState } from 'react';
  
 const Chatspage = () => {
+  const [fetchAgain,setFetchAgain] = useState(false)
  
   const { user } = ChatState();
   
@@ -22,8 +24,12 @@ const Chatspage = () => {
         h="91.5vh"
         p="20px"
       >
-        {user && <Mychats />}
-        {user && <ChatBox />}
+        {user && (
+          <Mychats fetchAgain={fetchAgain}   />
+        )}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Flex>
       {/* <Box
         d="flex"
